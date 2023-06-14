@@ -14,7 +14,7 @@ public abstract class Instruction {
         added = false;
         run = false;
     }
-    public abstract void run(Debugger d) throws EndOfStepsException, UndefinedVariableException;
+    public abstract void run(Debugger d) throws EndOfStepsException, UndefinedVariableException, IllegalArgumentException;
     protected void setAdded() {
         if (this.added == false) return;
         this.added = false;

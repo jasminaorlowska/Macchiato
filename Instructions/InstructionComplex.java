@@ -40,6 +40,10 @@ public abstract class InstructionComplex extends Instruction{
         return this.getParentBlock().getVariable(variable);
     }
 
+    public Procedure getProcedure(String name) {
+        return this.getParentBlock().getProcedure(name);
+    }
+
     public void addInstruction(Instruction i) {
         if (i.isAdded()) {
             System.out.println("instruction is already added somewhere else");
