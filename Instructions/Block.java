@@ -3,6 +3,7 @@ import Exceptions.*;
 import Expressions.Variable;
 import Macchiato.Debugger;
 import java.util.LinkedHashSet;
+import java.util.Set;
 public class Block extends InstructionComplex {
 
     private final Variables variables;
@@ -42,22 +43,13 @@ public class Block extends InstructionComplex {
         addInstruction(new BlockBeginEnd(true)); //begin block instruction
     }
 
-    //Adding variables and procedure declarations
+    //Adding variables, procedure declarations, instructions
     public void addProcedureDeclaration(ProcedureDeclaration procedureDeclaration) {
         procedures.addProcedure(procedureDeclaration.createProcedure());
     }
     public void addVariable(Variable v) {
         variables.addVariable(v);
     }
-
-    //Getters of specific procedure/variable
-    @Override public Procedure getProcedure(String name) {
-        return procedures.getProcedure(name);
-    }
-    @Override public Variable getVariable(Variable variable) {
-        return variables.getVariable(variable);
-    }
-
     @Override public void addInstruction(Instruction i) {
         if (i.isAdded()) {
             System.out.println("Instruction is already added somewhere else");
@@ -67,11 +59,23 @@ public class Block extends InstructionComplex {
         getInstructions().add(getInstructions().size() - 1, i);
         i.setParentBlock(this);
     }
-    public void run(Debugger d) throws EndOfStepsException, UndefinedVariableException {
-        runInstructions(d);
-    }
 
+    //Getters of specific procedure/variable
+    @Override public Procedure getProcedure(String name) {
+        return procedures.getProcedure(name);
+    }
+    @Override public Variable getVariable(Variable variable) {
+        return variables.getVariable(variable);
+    }
+    //Getters
+    public Set<Procedure> getProcedures() {
+        return procedures.getProcedures();
+    }
     @Override public LinkedHashSet<Variable> getVariables() {
         return variables.getVariables();
+    }
+
+    public void run(Debugger d) throws EndOfStepsException, UndefinedVariableException {
+        runInstructions(d);
     }
 }

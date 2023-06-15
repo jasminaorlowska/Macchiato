@@ -24,4 +24,14 @@ public class ProcedureDeclaration {
         return new Procedure(name, variables, instructions);
     }
 
+    //Getters
+    public String getName() {
+        return name;
+    }
+    public LinkedHashSet<Character> getVariables() {
+        return variables;
+    }
+    public ArrayList<Instruction> getInstructions() {
+        return instructions;
+    }
 }

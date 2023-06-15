@@ -1,7 +1,4 @@
 package Instructions;
-
-import Expressions.Variable;
-
 import java.util.HashSet;
 import java.util.Set;
 
@@ -34,4 +31,8 @@ public class Procedures {
         if (parentBlock.getParentBlock() != null) return parentBlock.getParentBlock().getProcedure(name);
         return null;
     }
+    public Set<Procedure> getProcedures() {
+        return procedures;
+    }
+
 }
