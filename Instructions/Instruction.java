@@ -1,5 +1,4 @@
 package Instructions;
-
 import Exceptions.*;
 import Expressions.Variable;
 import Macchiato.Debugger;

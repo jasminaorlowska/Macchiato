@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.LinkedHashSet;
 import java.util.Objects;
 
+/**Procedure outline. Can't be invoked*/
 public class Procedure {
     private LinkedHashSet<Character> variables;
     private String name;

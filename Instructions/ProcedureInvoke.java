@@ -1,5 +1,4 @@
 package Instructions;
-
 import Exceptions.*;
 import Expressions.Expression;
 import Expressions.Variable;
@@ -7,7 +6,8 @@ import Macchiato.Debugger;
 
 import java.util.ArrayList;
 import java.util.LinkedHashSet;
-
+/**Invokes a procedure. Ensures that the arguments of invoking the procedure and procedure declaration
+ * are correct. */
 public class ProcedureInvoke extends InstructionComplex{
     private final String name;
     private final ArrayList<Expression> arguments;

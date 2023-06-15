@@ -2,7 +2,6 @@ package Instructions;
 import Exceptions.*;
 import Expressions.Variable;
 import Macchiato.Debugger;
-
 import java.util.LinkedHashSet;
 public class Block extends InstructionComplex {
 
@@ -12,19 +11,20 @@ public class Block extends InstructionComplex {
     public Block(Variables variables) {
         super();
         this.variables = variables;
-        initializeProceduresAndVariables();
-        addBeginEndBlock();
-        initializeVariablesInitialization();
+        initialize();
     }
     public Block() {
         super();
         this.variables = new Variables();
+        initialize();
+    }
+
+    //constructor helper methods
+    private void initialize() {
         initializeProceduresAndVariables();
         addBeginEndBlock();
         initializeVariablesInitialization();
     }
-
-    //constructor helper methods
     private void initializeProceduresAndVariables () {
         this.procedures = new Procedures();
         variables.setParentBlock(this);
@@ -49,6 +49,7 @@ public class Block extends InstructionComplex {
     public void addVariable(Variable v) {
         variables.addVariable(v);
     }
+
     //Getters of specific procedure/variable
     @Override public Procedure getProcedure(String name) {
         return procedures.getProcedure(name);

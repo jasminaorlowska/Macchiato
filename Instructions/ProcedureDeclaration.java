@@ -1,8 +1,8 @@
 package Instructions;
-
 import java.util.ArrayList;
 import java.util.LinkedHashSet;
 
+/**Declares a procedure. Contains a method that creates a procedure from declaration*/
 public class ProcedureDeclaration {
 
     private final String name;

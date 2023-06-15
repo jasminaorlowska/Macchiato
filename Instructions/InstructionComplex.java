@@ -1,12 +1,11 @@
 package Instructions;
-
 import Exceptions.*;
 import Expressions.Variable;
 import Macchiato.Debugger;
-
 import java.util.ArrayList;
 import java.util.LinkedHashSet;
 
+/**Instruction that can contain other instructions within it*/
 public abstract class InstructionComplex extends Instruction{
 
     private final ArrayList<Instruction> instructions;
