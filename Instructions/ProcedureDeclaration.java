@@ -5,14 +5,23 @@ import java.util.LinkedHashSet;
 
 public class ProcedureDeclaration {
 
-    public ProcedureDeclaration(String name, LinkedHashSet<Character> variables, ArrayList<Instruction> instructions, Block parentBlock)
-    throws IllegalArgumentException{
-        if (!name.matches("[a+z]+")) {
+    private final String name;
+    private final LinkedHashSet<Character> variables;
+    private final ArrayList<Instruction> instructions;
+
+    public ProcedureDeclaration(String name, LinkedHashSet<Character> variables,
+                                ArrayList<Instruction> instructions)
+    throws IllegalArgumentException {
+        if (!name.matches("[a-z]+")) {
             throw new IllegalArgumentException("Wrong procedure name. You can only use characters.");
         }
-        Procedure p = new Procedure(name, variables, instructions);
-        parentBlock.addProcedure(p);
+        this.name=name;
+        this.variables=variables;
+        this.instructions=instructions;
     }
 
+    public Procedure createProcedure() {
+        return new Procedure(name, variables, instructions);
+    }
 
 }

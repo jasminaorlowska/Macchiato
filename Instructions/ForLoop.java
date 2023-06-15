@@ -7,13 +7,12 @@ import Expressions.Variable;
 import Macchiato.Debugger;
 
 import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.LinkedHashSet;
 
 public class ForLoop extends InstructionComplex{
 
     private final Calculate expression;
-    private Variable variable;
+    private final Variable variable;
     private ArrayList<Instruction> helperInstructions;
     private int value;
     private int firstNotRun;
@@ -109,8 +108,8 @@ public class ForLoop extends InstructionComplex{
         d.stackPop();
     }
 
-    @Override public Set<Variable>  getVariables() {
-        Set<Variable> variables = new HashSet<>();
+    @Override public LinkedHashSet<Variable>  getVariables() {
+        LinkedHashSet<Variable> variables = new LinkedHashSet<>();
         variables.add(variable);
         return variables;
     }

@@ -5,24 +5,17 @@ import Expressions.Variable;
 import Macchiato.Debugger;
 
 import java.util.ArrayList;
-import java.util.Set;
+import java.util.LinkedHashSet;
 
 public abstract class InstructionComplex extends Instruction{
 
-    private ArrayList<Instruction> instructions;
+    private final ArrayList<Instruction> instructions;
     private boolean startedRunning;
-
-    public ArrayList<Instruction> getInstructions () {
-        return instructions;
-    }
 
     public InstructionComplex() {
         super();
         this.instructions = new ArrayList<>();
         startedRunning = false;
-    }
-    public Set<Variable> getVariables() {
-        return null;
     }
 
     protected boolean startedRunning() {
@@ -39,11 +32,15 @@ public abstract class InstructionComplex extends Instruction{
     public Variable getVariable(Variable variable) {
         return this.getParentBlock().getVariable(variable);
     }
-
     public Procedure getProcedure(String name) {
         return this.getParentBlock().getProcedure(name);
     }
-
+    public LinkedHashSet<Variable> getVariables() {
+        return null;
+    }
+    public ArrayList<Instruction> getInstructions () {
+        return instructions;
+    }
     public void addInstruction(Instruction i) {
         if (i.isAdded()) {
             System.out.println("instruction is already added somewhere else");
@@ -52,6 +49,7 @@ public abstract class InstructionComplex extends Instruction{
         this.instructions.add(i);
         i.setParentBlock(this);
     }
+
     @Override public void restart() {
         for (Instruction i : instructions) {
             i.restart();

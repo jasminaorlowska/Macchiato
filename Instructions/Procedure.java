@@ -22,6 +22,9 @@ public class Procedure {
     public LinkedHashSet<Character> getVariables() {
         return variables;
     }
+    public ArrayList<Instruction> getInstructions() {
+        return instructions;
+    }
 
     @Override
     public boolean equals(Object obj) {

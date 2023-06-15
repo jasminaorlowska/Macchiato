@@ -4,52 +4,67 @@ import Expressions.Variable;
 import Macchiato.Debugger;
 
 import java.util.LinkedHashSet;
-import java.util.Set;
 public class Block extends InstructionComplex {
 
-    private Variables variables;
+    private final Variables variables;
     private Procedures procedures;
+
     public Block(Variables variables) {
         super();
         this.variables = variables;
-        this.procedures = new Procedures();
-        variables.setParentBlock(this);
-        Instruction i = new BlockBeginEnd(false); //end block instruction
-        getInstructions().add(i);
-        i.setParentBlock(this);
-        addInstruction(new BlockBeginEnd(true)); //begin block instruction
-        addInstruction(new InitializationOfVariables(variables));
+        initializeProceduresAndVariables();
+        addBeginEndBlock();
+        initializeVariablesInitialization();
     }
     public Block() {
         super();
         this.variables = new Variables();
+        initializeProceduresAndVariables();
+        addBeginEndBlock();
+        initializeVariablesInitialization();
+    }
+
+    //constructor helper methods
+    private void initializeProceduresAndVariables () {
         this.procedures = new Procedures();
+        variables.setParentBlock(this);
+        procedures.setParentBlock(this);
+    }
+    private void initializeVariablesInitialization() {
+        VariablesInitialization vInit = new VariablesInitialization(variables);
+        addInstruction(vInit);
+        variables.linkVariablesInitialization(vInit);
+    }
+    private void addBeginEndBlock() {
         Instruction i = new BlockBeginEnd(false);
         getInstructions().add(i); //end block instruction
         i.setParentBlock(this);
         addInstruction(new BlockBeginEnd(true)); //begin block instruction
-        addInstruction(new InitializationOfVariables(variables));
     }
-    public void addProcedure(Procedure p) {
-        procedures.addProcedure(p);
+
+    //Adding variables and procedure declarations
+    public void addProcedureDeclaration(ProcedureDeclaration procedureDeclaration) {
+        procedures.addProcedure(procedureDeclaration.createProcedure());
+    }
+    public void addVariable(Variable v) {
+        variables.addVariable(v);
+    }
+    //Getters of specific procedure/variable
+    @Override public Procedure getProcedure(String name) {
+        return procedures.getProcedure(name);
+    }
+    @Override public Variable getVariable(Variable variable) {
+        return variables.getVariable(variable);
     }
 
     @Override public void addInstruction(Instruction i) {
         if (i.isAdded()) {
-            System.out.println("instruction is already added somewhere else");
+            System.out.println("Instruction is already added somewhere else");
             return;
         }
         //second to last position because we want the last instruction to be end block.
         getInstructions().add(getInstructions().size() - 1, i);
         i.setParentBlock(this);
-    }
-    @Override
-    public Procedure getProcedure(String name) {
-        return procedures.getProcedure(name);
-    }
-
-    @Override public Variable getVariable(Variable variable) {
-        return variables.getVariable(variable);
     }
     public void run(Debugger d) throws EndOfStepsException, UndefinedVariableException {
         runInstructions(d);
@@ -58,5 +73,4 @@ public class Block extends InstructionComplex {
     @Override public LinkedHashSet<Variable> getVariables() {
         return variables.getVariables();
     }
-
 }

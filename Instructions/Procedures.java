@@ -2,13 +2,19 @@ package Instructions;
 
 import Expressions.Variable;
 
+import java.util.HashSet;
 import java.util.Set;
 
 public class Procedures {
     private Set<Procedure> procedures;
     private Block parentBlock;
+
+    public Procedures() {
+        this.procedures = new HashSet<Procedure>();
+    }
     public void addProcedure(Procedure p) {
-        if (!procedures.add(p)) System.out.println("Procedure already exists");
+        System.out.println();
+        if (!procedures.add(p)) System.out.println("Procedure '"+ p.getName() +"' already exists in the scope");
     }
 
     public void setParentBlock(Block parentBlock) {
