@@ -11,6 +11,11 @@ public class Program extends Block {
         this.setParentBlock(null);
         this.name = name;
     }
+    public Program(String name) {
+        super();
+        this.setParentBlock(null);
+        this.name = name;
+    }
 
     public String getName() {
         return name;

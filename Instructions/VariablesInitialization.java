@@ -4,11 +4,11 @@ import Exceptions.*;
 import Expressions.Variable;
 import Macchiato.Debugger;
 
-public class InitializationOfVariables extends InstructionComplex{
+public class VariablesInitialization extends InstructionComplex{
 
     private Variables variables;
 
-    public InitializationOfVariables(Variables variables) {
+    public VariablesInitialization(Variables variables) {
         super();
         this.variables = variables;
         for (Variable v : variables.getVariables()) {

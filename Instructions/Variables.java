@@ -1,29 +1,47 @@
 package Instructions;
 
 import Expressions.Variable;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.LinkedHashSet;
 
 /**API of variables available in the block**/
 public class Variables {
 
-    private Set<Variable> variables;
+    private final LinkedHashSet<Variable> variables;
     private InstructionComplex parentBlock;
+    private VariablesInitialization variablesInit;
+
     public Variables() {
-        this.variables = new HashSet<>();
+        this.variables = new LinkedHashSet<>();
         parentBlock = null;
     }
 
     public void setParentBlock(InstructionComplex parentBlock) {
         this.parentBlock = parentBlock;
     }
+    public void linkVariablesInitialization(VariablesInitialization variablesInit) {
+        this.variablesInit = variablesInit;
+    }
+
     public void addVariable(Variable v) {
-        variables.add(v);
+        if (!variables.add(v)) System.out.println("Variable '"+ v.getName() +"' already exists in the scope");
+        else {
+            //Adding instruction to initialization of variables
+            variablesInit.addInstruction(new ChangeValueVariable(v, v.getExpression()));
+        }
     }
     public void removeVariable(Variable v) {
         boolean res = variables.remove(v);
         if (!res) System.out.println("No such variable to remove");
-        else System.out.println("variable successfully removed");
+        else {
+            System.out.println("Variable successfully removed");
+            //Removing instruction from initialization of Variables
+            for (Instruction i : variablesInit.getInstructions()) {
+                ChangeValueVariable initialization = (ChangeValueVariable) i;
+                        if (initialization.getVariable() == v) {
+                            variablesInit.getInstructions().remove(i);
+                        }
+            }
+        }
     }
 
     public Variable getVariable(Variable variable) {
@@ -35,11 +53,11 @@ public class Variables {
         for (Variable v : variables) {
             if (variable.equals(v)) return v;
         }
-        //The variable is not present in the current block, check if the block has a parent, and if so, search there.
+        //Variable is not present in the current block, check if the block has a parent, and if so, search there.
         if (parentBlock.getParentBlock() != null) return parentBlock.getParentBlock().getVariable(variable);
         return null;
     }
 
     public int getSize() {return variables.size();}
-    public Set<Variable> getVariables() {return variables;}
+    public LinkedHashSet<Variable> getVariables() {return variables;}
 }
