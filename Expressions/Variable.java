@@ -3,7 +3,7 @@ package Expressions;
 import Exceptions.UndefinedVariableException;
 import Instructions.Instruction;
 
-public class Variable implements Expression{
+public class Variable extends Expression{
 
     private final Expression expression;
     private final char name;

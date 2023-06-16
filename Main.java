@@ -1,3 +1,4 @@
+import Exceptions.UndefinedVariableException;
 import Expressions.*;
 import Instructions.*;
 import Macchiato.Macchiato;
@@ -79,24 +80,25 @@ public static void main(String[] args) {
         macchiato.runProgram(p);
         */
 
-        macchiato.createProgram("test");
-        Program p = macchiato.getProgram("test");
-        Variable a = new Variable('a', new IntegerLiteral(1));
-        p.addVariable(a);
-        p.addVariable(new Variable('b'));
-        p.addVariable(new Variable('c', new IntegerLiteral(15)));
-        p.addVariable(new Variable('d'));
-        LinkedHashSet<Character> procedureDeclarationArgs = new LinkedHashSet<>();
-        procedureDeclarationArgs.add('e');
-        ArrayList<Instruction> arr = new ArrayList<>();
-        arr.add(new PrintExpression(new Sum(new IntegerLiteral(2), a)));
-        ProcedureDeclaration proDec = new ProcedureDeclaration("program", procedureDeclarationArgs, arr);
-        p.addProcedureDeclaration(proDec);
-        ArrayList<Expression> argsProcedure = new ArrayList<>();
-        argsProcedure.add(new IntegerLiteral(3));
-        ProcedureInvoke proInvo = new ProcedureInvoke("program", argsProcedure);
-        p.addInstruction(proInvo);
-        macchiato.runProgram(p);
+//        macchiato.createProgram("test");
+//        Program p = macchiato.getProgram("test");
+//        Variable a = new Variable('a', new IntegerLiteral(1));
+//        p.addVariable(a);
+//        p.addVariable(new Variable('b'));
+//        p.addVariable(new Variable('c', new IntegerLiteral(15)));
+//        p.addVariable(new Variable('d'));
+//        LinkedHashSet<Character> procedureDeclarationArgs = new LinkedHashSet<>();
+//        procedureDeclarationArgs.add('e');
+//        ArrayList<Instruction> arr = new ArrayList<>();
+//        arr.add(new PrintExpression(new Sum(new IntegerLiteral(2), a)));
+//        ProcedureDeclaration proDec = new ProcedureDeclaration("program", procedureDeclarationArgs, arr);
+//        p.addProcedureDeclaration(proDec);
+//        ArrayList<Expression> argsProcedure = new ArrayList<>();
+//        argsProcedure.add(new IntegerLiteral(3));
+//        ProcedureInvoke proInvo = new ProcedureInvoke("program", argsProcedure);
+//        p.addInstruction(proInvo);
+//        macchiato.runProgram(p);
+
 
 
     }

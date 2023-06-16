@@ -3,7 +3,7 @@ import Exceptions.UndefinedVariableException;
 import Instructions.Instruction;
 import Instructions.Calculate;
 
-public class Modulo implements Expression {
+public class Modulo extends Expression {
 
     private final Expression e1;
     private final Expression e2;

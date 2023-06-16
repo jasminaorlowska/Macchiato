@@ -3,7 +3,7 @@ import Instructions.Instruction;
 import Instructions.Calculate;
 import Exceptions.UndefinedVariableException;
 
-public class Sum implements Expression {
+public class Sum extends Expression {
 
     private final Expression e1;
     private final Expression e2;
