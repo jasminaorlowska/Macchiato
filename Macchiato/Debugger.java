@@ -2,13 +2,16 @@ package Macchiato;
 
 import Exceptions.*;
 import Instructions.InstructionComplex;
+import Instructions.Procedure;
+import Instructions.ProcedureDeclaration;
 import Instructions.Program;
 import Expressions.Variable;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.Scanner;
-import java.util.Set;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.util.*;
 
 public class Debugger {
 
@@ -43,11 +46,15 @@ public class Debugger {
         stack.remove(stack.size() - 1);
     }
 
-    public void displayVariables(int level) {
+    public boolean isRunning() {
+        return running;
+    }
+
+    private Set<Variable> getVariables(int level) {
         Set<Variable> vars = new HashSet<>();
         if (level > getSize()) {
             System.out.println("There is no such level");
-            return;
+            return vars;
         }
         else if (stack.size() == 0) {
             vars.addAll(program.getVariables());
@@ -60,20 +67,35 @@ public class Debugger {
                 }
             }
         }
+        return vars;
+    }
+    private Set<Procedure> getProcedures(int level) {
+        Set<Procedure> procedures = new HashSet<>();
+        if (stack.size() == 0) {
+            procedures.addAll(program.getProcedures());
+        }
+        else {
+            for (int i = stack.size() - level - 1; i >= 0; i--) {
+                Set<Procedure> blockProcedures = stack.get(i).getProcedures();
+                if (blockProcedures != null) {
+                    procedures.addAll(blockProcedures);
+                }
+            }
+        }
+        return procedures;
+    }
+
+    public void displayVariables(int level) {
+        Set<Variable> vars = getVariables(level);
         for (Variable v : vars) {
             System.out.println(v + " " + v.getValue());
         }
-    }
-
-    public boolean isRunning() {
-        return running;
     }
 
     public InstructionComplex getLastInstruction() {
         if (stack.size() == 0) return null;
         return stack.get(stack.size() - 1);
     }
-
     private boolean caseC() {
         String messageEnd = "Program executed.";
         if (getSize() == 0) {
@@ -124,6 +146,37 @@ public class Debugger {
             System.out.println("Second argument must be a number.");
         }
     }
+    private void caseM(String[] tokens) {
+        String path = tokens[1];
+        try {
+            File file = new File(path);
+            file.createNewFile();
+        } catch (IOException e) {
+            System.out.println("Error.");
+            e.printStackTrace();
+        }
+        try {
+            BufferedWriter bw = new BufferedWriter(new FileWriter(path, true));
+            writeToBuffer(bw);
+            bw.close();
+        } catch (IOException e) {
+            System.out.println("error");
+        }
+    }
+    //Helper functions in 'm' case. Writes to buffer currently visible variables and procedures.
+    private void writeToBuffer(BufferedWriter bw) throws IOException{
+        Set<Variable> v = getVariables(0);
+        bw.write("Variables:\n");
+        for (Variable var : v) bw.write(var.getName() + " " + var.getValue() + "\n");
+        bw.flush();
+        Set<Procedure> p = getProcedures(0);
+        for (ProcedureDeclaration procedure : p) {
+            bw.write("Procedure name: " + procedure.getName() + "\n");
+            LinkedHashSet<Character> vars = procedure.getVariables();
+            for (Character c : vars) bw.write(c + " ");
+            bw.write("\n");
+        }
+    }
 
     private boolean instructionsCases(String cmd, String[] tokens) {
         switch (cmd) {
@@ -131,6 +184,7 @@ public class Debugger {
             case "s": return caseS(tokens);
             case "d": caseD(tokens); break;
             case "e": return true;
+            case "m": caseM(tokens); break;
             default: System.out.println("Wrong argument"); break;
         }
         return false;

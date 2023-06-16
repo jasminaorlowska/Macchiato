@@ -37,6 +37,10 @@ public final class Macchiato {
         Program program = new Program(name, variables);
         programs.add(program);
     }
+    public void createProgram(String name) {
+        Program program = new Program(name);
+        programs.add(program);
+    }
 
     public Program getProgram(String name) throws IllegalArgumentException {
         for (Program p : programs) {

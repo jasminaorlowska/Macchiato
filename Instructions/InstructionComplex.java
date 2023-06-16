@@ -4,6 +4,7 @@ import Expressions.Variable;
 import Macchiato.Debugger;
 import java.util.ArrayList;
 import java.util.LinkedHashSet;
+import java.util.Set;
 
 /**Instruction that can contain other instructions within it*/
 public abstract class InstructionComplex extends Instruction{
@@ -17,16 +18,9 @@ public abstract class InstructionComplex extends Instruction{
         startedRunning = false;
     }
 
-    protected boolean startedRunning() {
-        return startedRunning;
-    }
+    protected boolean startedRunning() {return startedRunning;}
     protected void setStartedRunning(boolean startedRunning) {
         this.startedRunning = startedRunning;
-    }
-    public void runInstructions(Debugger d) throws EndOfStepsException, UndefinedVariableException, ArithmeticException{
-        for (Instruction i : instructions) {
-            if (!i.isRun()) i.run(d);
-        }
     }
     public Variable getVariable(Variable variable) {
         return this.getParentBlock().getVariable(variable);
@@ -35,6 +29,9 @@ public abstract class InstructionComplex extends Instruction{
         return this.getParentBlock().getProcedure(name);
     }
     public LinkedHashSet<Variable> getVariables() {
+        return null;
+    }
+    public Set<Procedure> getProcedures() {
         return null;
     }
     public ArrayList<Instruction> getInstructions () {
@@ -56,7 +53,12 @@ public abstract class InstructionComplex extends Instruction{
         startedRunning = false;
         setRun(false);
     }
-
+    public void runInstructions(Debugger d) throws EndOfStepsException,
+            UndefinedVariableException, ArithmeticException{
+        for (Instruction i : instructions) {
+            if (!i.isRun()) i.run(d);
+        }
+    }
 }
 
 

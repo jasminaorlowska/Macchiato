@@ -18,7 +18,7 @@ public class Modulo implements Expression {
 
     public int calculate(Instruction parentBlock) throws UndefinedVariableException, ArithmeticException{
         if (e2.calculate(parentBlock) == 0) {
-            throw new ArithmeticException("Expressions.Modulo 0 in: " + e1.toString() + e2.toString());
+            throw new ArithmeticException("Expressions.Modulo 0 in: " + e1 + e2);
         }
         Calculate c2 = new Calculate(e2, parentBlock);
         Calculate c1 = new Calculate(e1,parentBlock);
@@ -27,7 +27,5 @@ public class Modulo implements Expression {
 
 
     @Override
-    public String toString() {
-        return "(" + e1.toString() + " % " +  e2.toString() + ")";
-    }
+    public String toString() {return "(" + e1 + " % " +  e2 + ")";}
 }

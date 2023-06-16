@@ -2,7 +2,6 @@ package Instructions;
 import Exceptions.*;
 import Expressions.Variable;
 import Macchiato.Debugger;
-
 public abstract class Instruction {
 
     private boolean added;
