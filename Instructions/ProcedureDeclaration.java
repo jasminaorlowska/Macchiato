@@ -1,14 +1,14 @@
 package Instructions;
 import java.util.ArrayList;
 import java.util.LinkedHashSet;
+import java.util.Objects;
 
-/**Declares a procedure. Contains a method that creates a procedure from declaration*/
+/**Declares a procedure. Procedure outline. Can't be invoked*/
 public class ProcedureDeclaration {
 
     private final String name;
     private final LinkedHashSet<Character> variables;
     private final ArrayList<Instruction> instructions;
-
     public ProcedureDeclaration(String name, LinkedHashSet<Character> variables,
                                 ArrayList<Instruction> instructions)
     throws IllegalArgumentException {
@@ -20,10 +20,6 @@ public class ProcedureDeclaration {
         this.instructions=instructions;
     }
 
-    public Procedure createProcedure() {
-        return new Procedure(name, variables, instructions);
-    }
-
     //Getters
     public String getName() {
         return name;
@@ -33,5 +29,17 @@ public class ProcedureDeclaration {
     }
     public ArrayList<Instruction> getInstructions() {
         return instructions;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) return true;
+        if (obj == null || getClass() != obj.getClass()) return false;
+        ProcedureDeclaration procedure = (ProcedureDeclaration) obj;
+        return getName().equals(procedure.getName());
+    }
+    @Override
+    public int hashCode() {
+        return Objects.hash(getName());
     }
 }

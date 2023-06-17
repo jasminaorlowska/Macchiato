@@ -35,13 +35,13 @@ public abstract class InstructionComplex extends Instruction{
     public Variable getVariable(Variable variable) {
         return this.getParentBlock().getVariable(variable);
     }
-    public Procedure getProcedure(String name) {
+    public ProcedureDeclaration getProcedure(String name) {
         return this.getParentBlock().getProcedure(name);
     }
     public LinkedHashSet<Variable> getVariables() {
         return null;
     }
-    public Set<Procedure> getProcedures() {
+    public Set<ProcedureDeclaration> getProcedures() {
         return null;
     }
     public ArrayList<Instruction> getInstructions () {
@@ -54,6 +54,7 @@ public abstract class InstructionComplex extends Instruction{
         }
         instructions.add(i);
         i.setParentBlock(this);
+        i.setAdded();
     }
 
     @Override public void restart() {

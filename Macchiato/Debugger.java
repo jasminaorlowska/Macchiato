@@ -2,7 +2,6 @@ package Macchiato;
 
 import Exceptions.*;
 import Instructions.InstructionComplex;
-import Instructions.Procedure;
 import Instructions.ProcedureDeclaration;
 import Instructions.Program;
 import Expressions.Variable;
@@ -69,14 +68,14 @@ public class Debugger {
         }
         return vars;
     }
-    private Set<Procedure> getProcedures(int level) {
-        Set<Procedure> procedures = new HashSet<>();
+    private Set<ProcedureDeclaration> getProcedures(int level) {
+        Set<ProcedureDeclaration> procedures = new HashSet<>();
         if (stack.size() == 0) {
             procedures.addAll(program.getProcedures());
         }
         else {
             for (int i = stack.size() - level - 1; i >= 0; i--) {
-                Set<Procedure> blockProcedures = stack.get(i).getProcedures();
+                Set<ProcedureDeclaration> blockProcedures = stack.get(i).getProcedures();
                 if (blockProcedures != null) {
                     procedures.addAll(blockProcedures);
                 }
@@ -169,7 +168,7 @@ public class Debugger {
         bw.write("Variables:\n");
         for (Variable var : v) bw.write(var.getName() + " " + var.getValue() + "\n");
         bw.flush();
-        Set<Procedure> p = getProcedures(0);
+        Set<ProcedureDeclaration> p = getProcedures(0);
         for (ProcedureDeclaration procedure : p) {
             bw.write("Procedure name: " + procedure.getName() + "\n");
             LinkedHashSet<Character> vars = procedure.getVariables();

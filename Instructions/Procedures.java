@@ -3,13 +3,13 @@ import java.util.HashSet;
 import java.util.Set;
 
 public class Procedures {
-    private Set<Procedure> procedures;
+    private Set<ProcedureDeclaration> procedures;
     private Block parentBlock;
 
     public Procedures() {
-        this.procedures = new HashSet<Procedure>();
+        this.procedures = new HashSet<ProcedureDeclaration>();
     }
-    public void addProcedure(Procedure p) {
+    public void addProcedure(ProcedureDeclaration p) {
         System.out.println();
         if (!procedures.add(p)) System.out.println("Procedure '"+ p.getName() +"' already exists in the scope");
     }
@@ -18,20 +18,20 @@ public class Procedures {
         this.parentBlock = parentBlock;
     }
 
-    public Procedure getProcedure(String name) {
+    public ProcedureDeclaration getProcedure(String name) {
         //Error handling - procedures are not assigned to the block.
         if (parentBlock == null) {
             System.out.println("No parent. Error");
             return null;
         }
-        for (Procedure p : procedures) {
+        for (ProcedureDeclaration p : procedures) {
             if (p.getName().equals(name)) return p;
         }
         //Procedure is not present in the current block, check if the block has a parent, and if so, search there.
         if (parentBlock.getParentBlock() != null) return parentBlock.getParentBlock().getProcedure(name);
         return null;
     }
-    public Set<Procedure> getProcedures() {
+    public Set<ProcedureDeclaration> getProcedures() {
         return procedures;
     }
 

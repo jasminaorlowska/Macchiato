@@ -11,7 +11,6 @@ import java.util.LinkedHashSet;
 public class ProcedureInvoke extends InstructionComplex {
     private final String name;
     private final ArrayList<Expression> arguments;
-    private Block parentBlock;
     private Variables variables;
 
     public ProcedureInvoke(String name, ArrayList<Expression> arguments) {
@@ -27,14 +26,14 @@ public class ProcedureInvoke extends InstructionComplex {
 
     //Creates variables from given names (in procedure declaration) and arguments (in procedure invoke),
     //moves instructions (from procedure declaration) to get them invoked
-    private void createVariablesMoveInstructions(LinkedHashSet<Character> vars, Procedure procedure) {
-        VariablesInitialization vInit = new VariablesInitialization(this.variables);
+    private void createVariablesMoveInstructions(LinkedHashSet<Character> vars, ProcedureDeclaration procedure) {
+        VariablesInitialization vInit = new VariablesInitialization(variables);
         addInstruction(vInit);
-        this.variables.linkVariablesInitialization(vInit);
+        variables.linkVariablesInitialization(vInit);
 
         int i = 0;
         for (Character c : vars) {
-            this.variables.addVariable(new Variable(c, arguments.get(i)));
+            variables.addVariable(new Variable(c, arguments.get(i)));
             i++;
         }
 
@@ -52,7 +51,7 @@ public class ProcedureInvoke extends InstructionComplex {
     public void run(Debugger d) throws EndOfStepsException, UndefinedVariableException, IllegalArgumentException {
         if (!startedRunning()) {
             setStartedRunning(true);
-            Procedure procedure = getParentBlock().getProcedure(name);
+            ProcedureDeclaration procedure = getParentBlock().getProcedure(name);
             if (procedure == null) {
                 System.out.println("Procedure doesn't exist");
                 setRun(true);

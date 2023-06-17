@@ -53,10 +53,11 @@ public class Variable extends Expression{
     public int getValue() {return value;}
     public int calculate() throws ArithmeticException {return value;}
     public int calculate(Instruction parentBlock) throws UndefinedVariableException {
-        if (parentBlock.getVariable(this) == null) {
+        Variable v = parentBlock.getVariable(this);
+        if (v == null) {
             throw new UndefinedVariableException(this.name);
         }
-        return value;
+        return v.getValue();
     }
     public String toString() {
         return Character.toString(name);
