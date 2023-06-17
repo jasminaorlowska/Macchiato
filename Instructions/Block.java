@@ -1,4 +1,6 @@
 package Instructions;
+import Builders.BlockBuilder;
+import Builders.ProgramBuilder;
 import Exceptions.*;
 import Expressions.Variable;
 import Macchiato.Debugger;
@@ -9,15 +11,25 @@ public class Block extends InstructionComplex {
     private final Variables variables;
     private Procedures procedures;
 
-    public Block(Variables variables) {
-        super();
-        this.variables = variables;
-        initialize();
-    }
     public Block() {
         super();
         this.variables = new Variables();
         initialize();
+    }
+
+    public Block(BlockBuilder builder) {
+        super();
+        this.variables = new Variables();
+        initialize();
+        for (Procedure p : builder.getProcedures()) {
+            procedures.addProcedure(p);
+        }
+        for (Variable v : builder.getVariables()) {
+            variables.addVariable(v);
+        }
+        for (Instruction i : builder.getInstructions()) {
+            addInstruction(i);
+        }
     }
 
     //constructor helper methods
@@ -44,10 +56,10 @@ public class Block extends InstructionComplex {
     }
 
     //Adding variables, procedure declarations, instructions
-    public void addProcedureDeclaration(ProcedureDeclaration procedureDeclaration) {
+    private void addProcedureDeclaration(ProcedureDeclaration procedureDeclaration) {
         procedures.addProcedure(procedureDeclaration.createProcedure());
     }
-    public void addVariable(Variable v) {
+    private void addVariable(Variable v) {
         variables.addVariable(v);
     }
     @Override public void addInstruction(Instruction i) {
@@ -60,7 +72,7 @@ public class Block extends InstructionComplex {
         i.setParentBlock(this);
     }
 
-    //Getters of specific procedure/variable
+    //Getters of specific procedure/variable, returns null if it doesn't exist
     @Override public Procedure getProcedure(String name) {
         return procedures.getProcedure(name);
     }

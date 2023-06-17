@@ -1,5 +1,6 @@
 package Macchiato;
 
+import Builders.ProgramBuilder;
 import Instructions.Program;
 import Instructions.Variables;
 
@@ -33,13 +34,13 @@ public final class Macchiato {
     }
 
     // Programs are single blocks, so to create a program, you need to create a block.
-    public void createProgram(String name, Variables variables) {
-        Program program = new Program(name, variables);
-        programs.add(program);
+
+    public ProgramBuilder createProgram(String name) {
+        return new ProgramBuilder(name);
     }
-    public void createProgram(String name) {
-        Program program = new Program(name);
-        programs.add(program);
+
+    public void addProgram(Program p) {
+        programs.add(p);
     }
 
     public Program getProgram(String name) throws IllegalArgumentException {

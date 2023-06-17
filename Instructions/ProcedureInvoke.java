@@ -25,7 +25,7 @@ public class ProcedureInvoke extends InstructionComplex{
         variables.setParentBlock(this);
     }
 
-    //Creates variables from given names (in procedure declaration) and arguments (in proedure invoke),
+    //Creates variables from given names (in procedure declaration) and arguments (in procedure invoke),
     //moves instructions (from procedure declaration) to get them invoked
     private void createVariablesMoveInstructions(LinkedHashSet<Character> vars, Procedure procedure) {
         VariablesInitialization vInit = new VariablesInitialization(this.variables);

@@ -1,5 +1,6 @@
 package Instructions;
 
+import Builders.ForLoopBuilder;
 import Exceptions.*;
 import Expressions.Expression;
 import Expressions.IntegerLiteral;
@@ -29,9 +30,31 @@ public class ForLoop extends InstructionComplex{
         this.firstNotRun = 0;
     }
 
+    public ForLoop(ForLoopBuilder builder) {
+        super();
+        Variable variable = builder.getVariable();
+        Expression expression = builder.getExpression();
+        if (variable == null || expression == null) {
+            throw new IllegalArgumentException("Arguments can't be null");
+        }
+        for (Instruction i : builder.getInstructions()) {
+            addInstruction(i);
+        }
+        this.expression = new Calculate(expression, this);
+        this.variable = variable;
+        this.helperInstructions = new ArrayList<>();
+        this.value = 0;
+        this.firstNotRun = 0;
+    }
+
     @Override public Variable getVariable(Variable variable) {
         if (this.variable.equals(variable)) return this.variable;
         return this.getParentBlock().getVariable(variable);
+    }
+    @Override public LinkedHashSet<Variable>  getVariables() {
+        LinkedHashSet<Variable> variables = new LinkedHashSet<>();
+        variables.add(variable);
+        return variables;
     }
 
     private void moveFromLists(ArrayList<Instruction> moveFrom, ArrayList<Instruction> moveTo) {
@@ -39,7 +62,6 @@ public class ForLoop extends InstructionComplex{
         moveTo.addAll(moveFrom);
         moveFrom.clear();
     }
-
     @Override public void runInstructions(Debugger d) throws EndOfStepsException, UndefinedVariableException, ArithmeticException{
         int iterator = 0;
         for (Instruction i : getInstructions()) {
@@ -106,12 +128,6 @@ public class ForLoop extends InstructionComplex{
 
         setRun(true);
         d.stackPop();
-    }
-
-    @Override public LinkedHashSet<Variable>  getVariables() {
-        LinkedHashSet<Variable> variables = new LinkedHashSet<>();
-        variables.add(variable);
-        return variables;
     }
 
     public String toString() {
