@@ -30,11 +30,12 @@ public class ChangeValueVariable extends Instruction {
         d.changeSteps();
 
         try {
-            if (getParentBlock().getVariable(variable) == null) {
+            Variable v = getParentBlock().getVariable(variable);
+            if (v == null) {
                 throw new UndefinedVariableException(variable.getName());
             }
             int newValue = expression.run();
-            variable.setValue(newValue);
+            v.setValue(newValue);
         } catch (ArithmeticException e) {
             throw new ArithmeticException(this.toString());
         }

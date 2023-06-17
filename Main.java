@@ -24,10 +24,6 @@ public static void main(String[] args) {
     )
     .build();*/
 
-            /*begin block: x,y, out('a')
-                out (1) -> print 1 + x
-            */
-
             Program p = macchiato.createProgram("test").
             declareVariable('x', Expression.constant(101)).
             declareVariable('y',Expression.constant(1)).
@@ -36,7 +32,10 @@ public static void main(String[] args) {
                     new Block.Builder().
                             print(Expression.sum(Expression.var('a'), Expression.var('x'))).build()).
                     invoke("out", List.of(Expression.constant(1))).
+                    assign('x', Expression.sum(Expression.var('x'), Expression.var('y'))).
+                    print(Expression.var('x')).
                     build();
+
             macchiato.addProgram(p);
             macchiato.runProgram(p);
     }
