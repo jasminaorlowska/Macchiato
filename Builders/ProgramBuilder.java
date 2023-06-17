@@ -1,7 +1,7 @@
 package Builders;
 import Instructions.*;
 
-public class ProgramBuilder extends BlockProgramBuilder<Program>{
+public class ProgramBuilder extends BlockBuilder<ProgramBuilder>{
 
     private final String name;
 

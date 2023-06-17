@@ -4,7 +4,7 @@ import Expressions.Expression;
 import Expressions.Variable;
 import Instructions.ForLoop;
 
-public class ForLoopBuilder extends InstructionComplexBuilder<ForLoop>{
+public class ForLoopBuilder extends InstructionComplexBuilder<ForLoopBuilder>{
 
     private final Variable variable;
     private final Expression expression;

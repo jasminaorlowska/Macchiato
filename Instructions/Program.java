@@ -14,10 +14,11 @@ public class Program extends Block {
     public void changeName(String name) { this.name = name; }
 
     public Program(ProgramBuilder builder) {
-        super();
+        super(builder);
         this.setParentBlock(null);
         this.name = builder.getName();
     }
+
     public Program(String name) {
         super();
         this.setParentBlock(null);

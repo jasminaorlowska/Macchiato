@@ -17,7 +17,7 @@ public class Block extends InstructionComplex {
         initialize();
     }
 
-    public Block(BlockBuilder builder) {
+    public Block(BlockBuilder<?> builder) {
         super();
         this.variables = new Variables();
         initialize();
@@ -90,4 +90,5 @@ public class Block extends InstructionComplex {
     public void run(Debugger d) throws EndOfStepsException, UndefinedVariableException {
         runInstructions(d);
     }
+
 }

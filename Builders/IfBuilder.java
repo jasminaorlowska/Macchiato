@@ -3,7 +3,7 @@ package Builders;
 import Expressions.Expression;
 import Instructions.If;
 
-public class IfBuilder extends InstructionComplexBuilder<If>{
+public class IfBuilder extends InstructionComplexBuilder<IfBuilder>{
 
     private final Expression e1;
     private final String operator;
@@ -14,6 +14,7 @@ public class IfBuilder extends InstructionComplexBuilder<If>{
     public String getOperator() {return operator;}
 
     public IfBuilder(Expression e1, String operator, Expression e2) {
+        super();
         this.e1 = e1;
         this.e2 = e2;
         this.operator = operator;

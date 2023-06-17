@@ -31,7 +31,7 @@ public class ForLoop extends InstructionComplex{
     }
 
     public ForLoop(ForLoopBuilder builder) {
-        super();
+        super(builder);
         Variable variable = builder.getVariable();
         Expression expression = builder.getExpression();
         if (variable == null || expression == null) {

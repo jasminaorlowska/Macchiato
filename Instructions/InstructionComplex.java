@@ -1,4 +1,5 @@
 package Instructions;
+import Builders.InstructionComplexBuilder;
 import Exceptions.*;
 import Expressions.Variable;
 import Macchiato.Debugger;
@@ -16,6 +17,15 @@ public abstract class InstructionComplex extends Instruction{
         super();
         this.instructions = new ArrayList<>();
         startedRunning = false;
+    }
+
+    public InstructionComplex(InstructionComplexBuilder<?> builder) {
+        super();
+        this.instructions = new ArrayList<>();
+        startedRunning = false;
+        for (Instruction i : builder.getInstructions()) {
+            addInstruction(i);
+        }
     }
 
     protected boolean startedRunning() {return startedRunning;}

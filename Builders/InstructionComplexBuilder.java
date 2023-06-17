@@ -5,9 +5,10 @@ import Expressions.Variable;
 import Instructions.*;
 import java.util.ArrayList;
 
-public abstract class InstructionComplexBuilder<T extends InstructionComplex> {
+public abstract class InstructionComplexBuilder <T extends InstructionComplexBuilder> {
 
-    private final ArrayList<Instruction> instructions;
+    protected final ArrayList<Instruction> instructions;
+
     public ArrayList<Instruction> getInstructions() {
         return instructions;
     }
@@ -15,30 +16,30 @@ public abstract class InstructionComplexBuilder<T extends InstructionComplex> {
     public InstructionComplexBuilder () {
         this.instructions = new ArrayList<>();
     }
-    public InstructionComplexBuilder assign(char name, Expression e) {
+    public T assign(char name, Expression e) {
         instructions.add(new ChangeValueVariable(new Variable(name), e));
-        return this;
+        return (T) this;
     }
-    public InstructionComplexBuilder invoke(String name, ArrayList<Expression> arguments) {
+    public T invoke(String name, ArrayList<Expression> arguments) {
         instructions.add(new ProcedureInvoke(name, arguments));
-        return this;
+        return (T) this;
     }
-    public InstructionComplexBuilder block(Block b) {
+    public T block(Block b) {
         instructions.add(b);
-        return this;
+        return (T) this;
     }
-    public InstructionComplexBuilder iteration(ForLoop f) {
+    public T iteration(ForLoop f) {
         instructions.add(f);
-        return this;
+        return (T) this;
     }
-    public InstructionComplexBuilder conditionalStatement(If ifStatement) {
+    public T conditionalStatement(If ifStatement) {
         instructions.add(ifStatement);
-        return this;
+        return (T) this;
     }
 
-    public InstructionComplexBuilder print(Expression e) {
+    public T print(Expression e) {
         instructions.add(new PrintExpression(e));
-        return this;
+        return (T) this;
     }
-    public abstract T build();
+    public abstract InstructionComplex build() ;
 }

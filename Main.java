@@ -29,7 +29,9 @@ public static void main(String[] args) {
             declareVariable('x', Expression.constant(101)).
             declareVariable('y',Expression.constant(1)).
             declareProcedure("out", List.of('a'), new BlockBuilder().
-            print(Expression.sum(Expression.var('a'), Expression.var('x'))).build()).build();
+            print(Expression.sum(Expression.var('a'), Expression.var('x'))).build()).
+            invoke("out", List.of(Expression.constant(1))).
+                    build();
             macchiato.addProgram(p);
             macchiato.runProgram(p);
     }
