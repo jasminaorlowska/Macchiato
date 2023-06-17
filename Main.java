@@ -1,8 +1,7 @@
 import Expressions.Expression;
-import Instructions.Program;
-import Instructions.Block;
+import Instructions.*;
+import Builders.List;
 import Macchiato.Macchiato;
-import Builders.*;
 public class Main {
 
 public static void main(String[] args) {
@@ -28,7 +27,7 @@ public static void main(String[] args) {
             Program p = macchiato.createProgram("test").
             declareVariable('x', Expression.constant(101)).
             declareVariable('y',Expression.constant(1)).
-            declareProcedure("out", List.of('a'), new BlockBuilder().
+            declareProcedure("out", List.of('a'), new Block.Builder().
             print(Expression.sum(Expression.var('a'), Expression.var('x'))).build()).
             invoke("out", List.of(Expression.constant(1))).
                     build();

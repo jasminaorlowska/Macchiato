@@ -1,8 +1,6 @@
 package Macchiato;
 
-import Builders.ProgramBuilder;
 import Instructions.Program;
-import Instructions.Variables;
 
 import java.util.ArrayList;
 import java.util.Scanner;
@@ -10,7 +8,7 @@ import java.util.Scanner;
 public final class Macchiato {
 
     private static Macchiato Instance;
-    private ArrayList<Program> programs;
+    private final ArrayList<Program> programs;
 
     private Macchiato() {
         programs = new ArrayList<>();
@@ -35,8 +33,8 @@ public final class Macchiato {
 
     // Programs are single blocks, so to create a program, you need to create a block.
 
-    public ProgramBuilder createProgram(String name) {
-        return new ProgramBuilder(name);
+    public Program.Builder createProgram(String name) {
+        return new Program.Builder(name);
     }
 
     public void addProgram(Program p) {

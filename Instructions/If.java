@@ -1,6 +1,5 @@
 package Instructions;
 
-import Builders.IfBuilder;
 import Exceptions.*;
 import Expressions.Expression;
 import Macchiato.Debugger;
@@ -12,24 +11,13 @@ public class If extends InstructionComplex{
     private final Calculate expression2;
     private boolean shouldExecute;
 
-    public If(Expression e1, Expression e2, String operator){
-        super();
-        checkArguments(e1, e2, operator);
-        this.operator = operator;
-        this.expression1 = new Calculate(e1, this);
-        this.expression2 = new Calculate(e2, this);
+    public If(If.Builder builder) {
+        super(builder);
+        checkArguments(builder.e1, builder.e2, builder.operator);
+        this.operator = builder.operator;
+        this.expression1 = new Calculate(builder.e1, this);
+        this.expression2 = new Calculate(builder.e2, this);
         this.shouldExecute = false;
-    }
-
-    public If(IfBuilder builder) {
-        checkArguments(builder.getE1(), builder.getE2(), builder.getOperator());
-        this.operator = builder.getOperator();
-        this.expression1 = new Calculate(builder.getE1(), this);
-        this.expression2 = new Calculate(builder.getE2(), this);
-        this.shouldExecute = false;
-        for (Instruction i : builder.getInstructions()) {
-            addInstruction(i);
-        }
     }
 
     private void checkArguments(Expression e1, Expression e2, String operator) {
@@ -94,4 +82,24 @@ public class If extends InstructionComplex{
     public String toString() {
         return "if " + expression1.toString() + " " + operator + " " + expression2.toString();
     }
+
+    //------------BUILDER--------------//
+    public static class Builder extends InstructionComplex.Builder<Builder> {
+
+        private final Expression e1;
+        private final String operator;
+        private final Expression e2;
+
+        public Builder(Expression e1, String operator, Expression e2) {
+            super();
+            this.e1 = e1;
+            this.e2 = e2;
+            this.operator = operator;
+        }
+
+        public If build() {
+            return new If(this);
+        }
+    }
+
 }

@@ -1,6 +1,6 @@
 package Instructions;
-import Builders.InstructionComplexBuilder;
 import Exceptions.*;
+import Expressions.Expression;
 import Expressions.Variable;
 import Macchiato.Debugger;
 import java.util.ArrayList;
@@ -13,19 +13,19 @@ public abstract class InstructionComplex extends Instruction{
     private final ArrayList<Instruction> instructions;
     private boolean startedRunning;
 
+    public InstructionComplex(InstructionComplex.Builder<?> builder) {
+        super();
+        this.instructions = new ArrayList<>();
+        startedRunning = false;
+        for (Instruction i : builder.instructions) {
+            addInstruction(i);
+        }
+    }
+
     public InstructionComplex() {
         super();
         this.instructions = new ArrayList<>();
         startedRunning = false;
-    }
-
-    public InstructionComplex(InstructionComplexBuilder<?> builder) {
-        super();
-        this.instructions = new ArrayList<>();
-        startedRunning = false;
-        for (Instruction i : builder.getInstructions()) {
-            addInstruction(i);
-        }
     }
 
     protected boolean startedRunning() {return startedRunning;}
@@ -52,7 +52,7 @@ public abstract class InstructionComplex extends Instruction{
             System.out.println("instruction is already added somewhere else");
             return;
         }
-        this.instructions.add(i);
+        instructions.add(i);
         i.setParentBlock(this);
     }
 
@@ -68,6 +68,43 @@ public abstract class InstructionComplex extends Instruction{
         for (Instruction i : instructions) {
             if (!i.isRun()) i.run(d);
         }
+    }
+
+    //------------BUILDER--------------//
+    public static abstract class Builder <T extends InstructionComplex.Builder> {
+
+        protected final ArrayList<Instruction> instructions;
+
+        public Builder () {
+            this.instructions = new ArrayList<>();
+        }
+
+        public T assign(char name, Expression e) {
+            instructions.add(new ChangeValueVariable(new Variable(name), e));
+            return (T) this;
+        }
+        public T invoke(String name, ArrayList<Expression> arguments) {
+            instructions.add(new ProcedureInvoke(name, arguments));
+            return (T) this;
+        }
+        public T block(Block b) {
+            instructions.add(b);
+            return (T) this;
+        }
+        public T iteration(ForLoop f) {
+            instructions.add(f);
+            return (T) this;
+        }
+        public T conditionalStatement(If ifStatement) {
+            instructions.add(ifStatement);
+            return (T) this;
+        }
+
+        public T print(Expression e) {
+            instructions.add(new PrintExpression(e));
+            return (T) this;
+        }
+        public abstract InstructionComplex build();
     }
 }
 

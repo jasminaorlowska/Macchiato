@@ -1,8 +1,6 @@
 package Instructions;
 
-import Builders.ProgramBuilder;
 import Exceptions.*;
-import Expressions.Variable;
 import Macchiato.Debugger;
 
 public class Program extends Block {
@@ -13,18 +11,11 @@ public class Program extends Block {
     }
     public void changeName(String name) { this.name = name; }
 
-    public Program(ProgramBuilder builder) {
+    public Program(Program.Builder builder) {
         super(builder);
         this.setParentBlock(null);
-        this.name = builder.getName();
+        this.name = builder.name;
     }
-
-    public Program(String name) {
-        super();
-        this.setParentBlock(null);
-        this.name = name;
-    }
-
 
     public void run(Debugger d) throws EndOfStepsException, ArithmeticException, UndefinedVariableException {
         InstructionComplex last = d.getLastInstruction();
@@ -43,4 +34,17 @@ public class Program extends Block {
         setRun(true);
     }
 
+    //------------BUILDER--------------//
+    public static class Builder extends Block.Builder<Builder> {
+
+        private final String name;
+
+        public Builder(String name) {
+            super();
+            this.name = name;
+        }
+
+        public Program build() {return new Program(this);}
+
+    }
 }

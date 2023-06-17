@@ -1,6 +1,5 @@
 package Instructions;
 
-import Builders.ForLoopBuilder;
 import Exceptions.*;
 import Expressions.Expression;
 import Expressions.IntegerLiteral;
@@ -18,27 +17,12 @@ public class ForLoop extends InstructionComplex{
     private int value;
     private int firstNotRun;
 
-    public ForLoop(Variable variable, Expression expression) {
-        super();
-        if (variable == null || expression == null) {
-            throw new IllegalArgumentException("Arguments can't be null");
-        }
-        this.expression = new Calculate(expression, this);
-        this.variable = variable;
-        this.helperInstructions = new ArrayList<>();
-        this.value = 0;
-        this.firstNotRun = 0;
-    }
-
-    public ForLoop(ForLoopBuilder builder) {
+    public ForLoop(ForLoop.Builder builder) {
         super(builder);
-        Variable variable = builder.getVariable();
-        Expression expression = builder.getExpression();
+        Variable variable = builder.variable;
+        Expression expression = builder.expression;
         if (variable == null || expression == null) {
             throw new IllegalArgumentException("Arguments can't be null");
-        }
-        for (Instruction i : builder.getInstructions()) {
-            addInstruction(i);
         }
         this.expression = new Calculate(expression, this);
         this.variable = variable;
@@ -132,5 +116,30 @@ public class ForLoop extends InstructionComplex{
 
     public String toString() {
         return "for " + variable + " " + expression.toString();
+    }
+
+
+    //------------BUILDER--------------//
+    public static class Builder extends InstructionComplex.Builder<Builder> {
+
+        private final Variable variable;
+        private final Expression expression;
+
+        public Expression getExpression() {
+            return expression;
+        }
+        public Variable getVariable() {
+            return variable;
+        }
+
+        public Builder(Variable variable, Expression expression) {
+            super();
+            this.variable = variable;
+            this.expression = expression;
+        }
+
+        public ForLoop build() {
+            return new ForLoop(this);
+        }
     }
 }
