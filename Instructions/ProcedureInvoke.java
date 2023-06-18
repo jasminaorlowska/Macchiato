@@ -11,7 +11,7 @@ import java.util.LinkedHashSet;
 public class ProcedureInvoke extends InstructionComplex {
     private final String name;
     private final ArrayList<Expression> arguments;
-    private Variables variables;
+    private final Variables variables;
 
     public ProcedureInvoke(String name, ArrayList<Expression> arguments) {
         super();

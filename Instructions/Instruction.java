@@ -4,12 +4,10 @@ import Expressions.Variable;
 import Macchiato.Debugger;
 public abstract class Instruction {
 
-    private boolean added;
     private InstructionComplex parentBlock;
     private boolean run;
 
     public Instruction() {
-        added = false;
         run = false;
     }
     public abstract void run(Debugger d) throws EndOfStepsException, UndefinedVariableException, IllegalArgumentException;

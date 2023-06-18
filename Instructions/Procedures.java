@@ -3,11 +3,11 @@ import java.util.HashSet;
 import java.util.Set;
 
 public class Procedures {
-    private Set<Procedure> procedures;
+    private final Set<Procedure> procedures;
     private Block parentBlock;
 
     public Procedures() {
-        this.procedures = new HashSet<Procedure>();
+        this.procedures = new HashSet<>();
     }
     public void setParentBlock(Block parentBlock) {
         this.parentBlock = parentBlock;
