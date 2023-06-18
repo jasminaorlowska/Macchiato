@@ -111,6 +111,7 @@ public class ForLoop extends InstructionComplex{
             moveFromLists(helperInstructions, getInstructions());
         }
 
+        restartInstructions();
         setRun(true);
         d.stackPop();
     }

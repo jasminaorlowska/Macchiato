@@ -35,35 +35,39 @@ public abstract class InstructionComplex extends Instruction{
     public Variable getVariable(Variable variable) {
         return this.getParentBlock().getVariable(variable);
     }
-    public ProcedureDeclaration getProcedure(String name) {
+    public Procedure getProcedure(String name) {
         return this.getParentBlock().getProcedure(name);
     }
     public LinkedHashSet<Variable> getVariables() {
         return null;
     }
-    public Set<ProcedureDeclaration> getProcedures() {
+    public Set<Procedure> getProcedures() {
         return null;
     }
     public ArrayList<Instruction> getInstructions () {
         return instructions;
     }
     public void addInstruction(Instruction i) {
-        if (i.isAdded()) {
-            System.out.println("instruction is already added somewhere else");
-            return;
-        }
+//        if (i.isAdded()) {
+//            System.out.println("instruction is already added somewhere else");
+//            return;
+//        }
         instructions.add(i);
         i.setParentBlock(this);
-        i.setAdded();
+//        i.setAdded();
     }
 
     @Override public void restart() {
-        for (Instruction i : instructions) {
-            i.restart();
-        }
         startedRunning = false;
         setRun(false);
     }
+
+    public void restartInstructions() {
+        for (Instruction i : instructions) {
+            i.restart();
+        }
+    }
+
     public void runInstructions(Debugger d) throws EndOfStepsException,
             UndefinedVariableException, ArithmeticException{
         for (Instruction i : instructions) {

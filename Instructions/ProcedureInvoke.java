@@ -24,9 +24,9 @@ public class ProcedureInvoke extends InstructionComplex {
         variables.setParentBlock(this);
     }
 
-    //Creates variables from given names (in procedure declaration) and arguments (in procedure invoke),
+    //Creates variables from given names (in procedure) and arguments (in procedure invoke),
     //moves instructions (from procedure declaration) to get them invoked
-    private void createVariablesMoveInstructions(LinkedHashSet<Character> vars, ProcedureDeclaration procedure) {
+    private void createVariablesMoveInstructions(LinkedHashSet<Character> vars, Procedure procedure) {
         VariablesInitialization vInit = new VariablesInitialization(variables);
         addInstruction(vInit);
         variables.linkVariablesInitialization(vInit);
@@ -52,7 +52,7 @@ public class ProcedureInvoke extends InstructionComplex {
     public void run(Debugger d) throws EndOfStepsException, UndefinedVariableException, IllegalArgumentException {
         if (!startedRunning()) {
             setStartedRunning(true);
-            ProcedureDeclaration procedure = getParentBlock().getProcedure(name);
+            Procedure procedure = getParentBlock().getProcedure(name);
             if (procedure == null) {
                 System.out.println("Procedure doesn't exist");
                 setRun(true);

@@ -14,7 +14,7 @@ public class Block extends InstructionComplex {
     public Block(Block.Builder<?> builder) {
         super(builder);
         initialize();
-        for (ProcedureDeclaration p : builder.procedures) {
+        for (Procedure p : builder.procedures) {
             procedures.addProcedure(p);
         }
         for (Variable v : builder.variables) {
@@ -49,14 +49,14 @@ public class Block extends InstructionComplex {
     }
 
     //Getters of specific procedure/variable, returns null if it doesn't exist
-    @Override public ProcedureDeclaration getProcedure(String name) {
+    @Override public Procedure getProcedure(String name) {
         return procedures.getProcedure(name);
     }
     @Override public Variable getVariable(Variable variable) {
         return variables.getVariable(variable);
     }
     //Getters
-    public Set<ProcedureDeclaration> getProcedures() {
+    public Set<Procedure> getProcedures() {
         return procedures.getProcedures();
     }
     @Override public LinkedHashSet<Variable> getVariables() {
@@ -65,13 +65,15 @@ public class Block extends InstructionComplex {
 
     public void run(Debugger d) throws EndOfStepsException, UndefinedVariableException {
         runInstructions(d);
+        restartInstructions();
+        setRun(true);
     }
 
     //------------BUILDER--------------//
     public static class Builder<T extends Block.Builder> extends InstructionComplex.Builder<T> {
 
         private final Set<Variable> variables;
-        private final Set<ProcedureDeclaration> procedures;
+        private final Set<Procedure> procedures;
 
         public Builder() {
             super();
@@ -86,7 +88,7 @@ public class Block extends InstructionComplex {
         public T declareProcedure(String name, ArrayList<Character> arguments, Instruction... instructions) {
             ArrayList<Instruction> instructionsArray = new ArrayList<>();
             Collections.addAll(instructionsArray, instructions);
-            procedures.add(new ProcedureDeclaration(name, new LinkedHashSet<>(arguments), instructionsArray));
+            procedures.add(new Procedure(name, new LinkedHashSet<>(arguments), instructionsArray));
             return (T) this;
         }
 

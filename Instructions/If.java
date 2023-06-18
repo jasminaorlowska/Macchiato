@@ -75,6 +75,7 @@ public class If extends InstructionComplex{
             runInstructions(d);
         }
 
+        restartInstructions();
         setRun(true);
         d.stackPop();
     }

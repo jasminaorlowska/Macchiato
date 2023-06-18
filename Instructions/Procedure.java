@@ -4,12 +4,12 @@ import java.util.LinkedHashSet;
 import java.util.Objects;
 
 /**Declares a procedure. Procedure outline. Can't be invoked*/
-public class ProcedureDeclaration {
+public class Procedure {
 
     private final String name;
     private final LinkedHashSet<Character> variables;
     private final ArrayList<Instruction> instructions;
-    public ProcedureDeclaration(String name, LinkedHashSet<Character> variables,
+    public Procedure(String name, LinkedHashSet<Character> variables,
                                 ArrayList<Instruction> instructions)
     throws IllegalArgumentException {
         if (!name.matches("[a-z]+")) {
@@ -35,7 +35,7 @@ public class ProcedureDeclaration {
     public boolean equals(Object obj) {
         if (this == obj) return true;
         if (obj == null || getClass() != obj.getClass()) return false;
-        ProcedureDeclaration procedure = (ProcedureDeclaration) obj;
+        Procedure procedure = (Procedure) obj;
         return getName().equals(procedure.getName());
     }
     @Override

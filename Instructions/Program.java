@@ -31,7 +31,8 @@ public class Program extends Block {
                 last = d.getLastInstruction();
             }
         }
-        setRun(true);
+        restartInstructions();
+//        setRun(true);
     }
 
     //------------BUILDER--------------//

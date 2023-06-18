@@ -13,13 +13,13 @@ public abstract class Instruction {
         run = false;
     }
     public abstract void run(Debugger d) throws EndOfStepsException, UndefinedVariableException, IllegalArgumentException;
-    protected void setAdded() {
-        if (this.added == false) return;
-        this.added = false;
-    }
-    public boolean isAdded() {
-        return added;
-    }
+//    protected void setAdded() {
+//        if (this.added == false) return;
+//        this.added = false;
+//    }
+//    public boolean isAdded() {
+//        return added;
+//    }
     protected void setRun(boolean run) {
         this.run = run;
     }
@@ -28,8 +28,9 @@ public abstract class Instruction {
         return parentBlock;
     }
     protected void setParentBlock(InstructionComplex parentBlock) {
-        if (!added) this.parentBlock = parentBlock;
-        setAdded();
+//        if (!added) this.parentBlock = parentBlock;
+//        setAdded();
+        this.parentBlock = parentBlock;
     }
     public Variable getVariable(Variable variable) {
         return this.getParentBlock().getVariable(variable);
