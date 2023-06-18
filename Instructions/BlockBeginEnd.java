@@ -1,5 +1,5 @@
 /**Instrukcja wejscia/wyjscia z bloku, argument true oznacza, ze instrukcja jest instrukcja "begin block"
- * a false, ze to instrukcja "end block "**/
+ * a false, ze to instrukcja "end block"**/
 
 package Instructions;
 import Exceptions.EndOfStepsException;

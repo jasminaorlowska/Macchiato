@@ -6,22 +6,15 @@ import Macchiato.Debugger;
 public class Program extends Block {
 
     private String name;
-    public Program(String name, Variables variables) {
-        super(variables);
-        this.setParentBlock(null);
-        this.name = name;
-    }
-    public Program(String name) {
-        super();
-        this.setParentBlock(null);
-        this.name = name;
-    }
-
     public String getName() {
         return name;
     }
-    public void changeName(String name) {
-        this.name = name;
+    public void changeName(String name) { this.name = name; }
+
+    public Program(Program.Builder builder) {
+        super(builder);
+        this.setParentBlock(null);
+        this.name = builder.name;
     }
 
     public void run(Debugger d) throws EndOfStepsException, ArithmeticException, UndefinedVariableException {
@@ -38,7 +31,21 @@ public class Program extends Block {
                 last = d.getLastInstruction();
             }
         }
-        setRun(true);
+        restartInstructions();
+//        setRun(true);
     }
 
+    //------------BUILDER--------------//
+    public static class Builder extends Block.BlockBuilder<Builder> {
+
+        private final String name;
+
+        public Builder(String name) {
+            super();
+            this.name = name;
+        }
+
+        public Program build() {return new Program(this);}
+
+    }
 }

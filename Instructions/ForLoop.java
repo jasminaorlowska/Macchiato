@@ -17,11 +17,14 @@ public class ForLoop extends InstructionComplex{
     private int value;
     private int firstNotRun;
 
-    public ForLoop(Variable variable, Expression expression) {
-        super();
+    public ForLoop(ForLoop.Builder builder) {
+        super(builder);
+        Variable variable = builder.variable;
+        Expression expression = builder.expression;
         if (variable == null || expression == null) {
             throw new IllegalArgumentException("Arguments can't be null");
         }
+
         this.expression = new Calculate(expression, this);
         this.variable = variable;
         this.helperInstructions = new ArrayList<>();
@@ -29,17 +32,23 @@ public class ForLoop extends InstructionComplex{
         this.firstNotRun = 0;
     }
 
+    //Getters
     @Override public Variable getVariable(Variable variable) {
         if (this.variable.equals(variable)) return this.variable;
         return this.getParentBlock().getVariable(variable);
     }
+    @Override public LinkedHashSet<Variable>  getVariables() {
+        LinkedHashSet<Variable> variables = new LinkedHashSet<>();
+        variables.add(variable);
+        return variables;
+    }
 
+    //Invoke
     private void moveFromLists(ArrayList<Instruction> moveFrom, ArrayList<Instruction> moveTo) {
         moveTo.clear();
         moveTo.addAll(moveFrom);
         moveFrom.clear();
     }
-
     @Override public void runInstructions(Debugger d) throws EndOfStepsException, UndefinedVariableException, ArithmeticException{
         int iterator = 0;
         for (Instruction i : getInstructions()) {
@@ -74,7 +83,6 @@ public class ForLoop extends InstructionComplex{
         moveFromLists(helperInstructions, getInstructions());
         helperInstructions.clear();
     }
-
     public void run(Debugger d) throws EndOfStepsException, UndefinedVariableException, ArithmeticException {
         if (!startedRunning()) {
             if (d.getSteps() == 0) {
@@ -104,17 +112,36 @@ public class ForLoop extends InstructionComplex{
             moveFromLists(helperInstructions, getInstructions());
         }
 
+        restartInstructions();
         setRun(true);
         d.stackPop();
     }
 
-    @Override public LinkedHashSet<Variable>  getVariables() {
-        LinkedHashSet<Variable> variables = new LinkedHashSet<>();
-        variables.add(variable);
-        return variables;
-    }
-
     public String toString() {
         return "for " + variable + " " + expression.toString();
+    }
+
+
+    //------------BUILDER--------------//
+    public static class Builder extends InstructionComplex.Builder<Builder> {
+
+        private final Variable variable;
+        private final Expression expression;
+
+        public Expression getExpression() {
+            return expression;
+        }
+        public Variable getVariable() {
+            return variable;
+        }
+
+        public Builder(Variable variable, Expression expression) {
+            super();
+            this.variable = variable;
+            this.expression = expression;
+        }
+        public ForLoop build() {
+            return new ForLoop(this);
+        }
     }
 }

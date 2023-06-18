@@ -3,11 +3,32 @@ import java.util.ArrayList;
 import java.util.LinkedHashSet;
 import java.util.Objects;
 
-/**Procedure outline. Can't be invoked*/
-public class Procedure extends ProcedureDeclaration{
+/**Declares a procedure. Procedure outline. Can't be invoked*/
+public class Procedure {
 
-    public Procedure(String name, LinkedHashSet<Character> variables, ArrayList<Instruction> instructions) {
-        super(name, variables, instructions);
+    private final String name;
+    private final LinkedHashSet<Character> variables;
+    private final ArrayList<Instruction> instructions;
+    public Procedure(String name, LinkedHashSet<Character> variables,
+                                ArrayList<Instruction> instructions)
+    throws IllegalArgumentException {
+        if (!name.matches("[a-z]+")) {
+            throw new IllegalArgumentException("Wrong procedure name. You can only use characters.");
+        }
+        this.name=name;
+        this.variables=variables;
+        this.instructions=instructions;
+    }
+
+    //Getters
+    public String getName() {
+        return name;
+    }
+    public LinkedHashSet<Character> getVariables() {
+        return variables;
+    }
+    public ArrayList<Instruction> getInstructions() {
+        return instructions;
     }
 
     @Override

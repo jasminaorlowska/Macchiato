@@ -1,66 +1,54 @@
 package Instructions;
 import Exceptions.*;
+import Expressions.Expression;
 import Expressions.Variable;
 import Macchiato.Debugger;
-import java.util.LinkedHashSet;
-import java.util.Set;
+
+import java.util.*;
+
 public class Block extends InstructionComplex {
 
-    private final Variables variables;
+    private  Variables variables;
     private Procedures procedures;
 
-    public Block(Variables variables) {
-        super();
-        this.variables = variables;
+    public Block(Block.BlockBuilder<?> builder) {
+        super(builder);
         initialize();
-    }
-    public Block() {
-        super();
-        this.variables = new Variables();
-        initialize();
+        for (Procedure p : builder.procedures) {
+            procedures.addProcedure(p);
+        }
+        for (Variable v : builder.variables) {
+            variables.addVariable(v);
+        }
     }
 
-    //constructor helper methods
+    //constructor helper methods, initialization
     private void initialize() {
         initializeProceduresAndVariables();
-        addBeginEndBlock();
-        initializeVariablesInitialization();
+        initializeVariablesInitialization(); //adding variables initialization at index 0 to the instruction list
+        addBeginEndBlock(); //adding 'begin block' at the beggining of instructions and 'end block' at the end
     }
     private void initializeProceduresAndVariables () {
         this.procedures = new Procedures();
+        this.variables = new Variables();
         variables.setParentBlock(this);
         procedures.setParentBlock(this);
     }
     private void initializeVariablesInitialization() {
         VariablesInitialization vInit = new VariablesInitialization(variables);
-        addInstruction(vInit);
+        getInstructions().add(0, vInit);
+        vInit.setParentBlock(this);
         variables.linkVariablesInitialization(vInit);
     }
     private void addBeginEndBlock() {
         Instruction i = new BlockBeginEnd(false);
-        getInstructions().add(i); //end block instruction
-        i.setParentBlock(this);
-        addInstruction(new BlockBeginEnd(true)); //begin block instruction
-    }
-
-    //Adding variables, procedure declarations, instructions
-    public void addProcedureDeclaration(ProcedureDeclaration procedureDeclaration) {
-        procedures.addProcedure(procedureDeclaration.createProcedure());
-    }
-    public void addVariable(Variable v) {
-        variables.addVariable(v);
-    }
-    @Override public void addInstruction(Instruction i) {
-        if (i.isAdded()) {
-            System.out.println("Instruction is already added somewhere else");
-            return;
-        }
-        //second to last position because we want the last instruction to be end block.
-        getInstructions().add(getInstructions().size() - 1, i);
+        addInstruction(i); //end block instruction
+        i = new BlockBeginEnd(true);
+        getInstructions().add(0, i); //begin block instruction
         i.setParentBlock(this);
     }
 
-    //Getters of specific procedure/variable
+    //Getters of specific procedure/variable, returns null if it doesn't exist
     @Override public Procedure getProcedure(String name) {
         return procedures.getProcedure(name);
     }
@@ -77,5 +65,38 @@ public class Block extends InstructionComplex {
 
     public void run(Debugger d) throws EndOfStepsException, UndefinedVariableException {
         runInstructions(d);
+        restartInstructions();
+        setRun(true);
     }
+
+    //------------BUILDERS--------------//
+    public static abstract class BlockBuilder<T extends Block.BlockBuilder> extends InstructionComplex.Builder<T> {
+
+        private final Set<Variable> variables;
+        private final Set<Procedure> procedures;
+
+        public BlockBuilder() {
+            super();
+            this.variables = new HashSet<>();
+            this.procedures = new HashSet<>();
+        }
+
+        public T declareVariable(char name, Expression e) {
+            variables.add(new Variable(name, e));
+            return (T) this;
+        }
+        public T declareProcedure(String name, ArrayList<Character> arguments, Instruction... instructions) {
+            ArrayList<Instruction> instructionsArray = new ArrayList<>();
+            Collections.addAll(instructionsArray, instructions);
+            procedures.add(new Procedure(name, new LinkedHashSet<>(arguments), instructionsArray));
+            return (T) this;
+        }
+
+    }
+    public static class Builder extends Block.BlockBuilder<Block.Builder>{
+        public Block build() {
+            return new Block(this);
+        }
+    }
+
 }

@@ -6,7 +6,7 @@ import Macchiato.Debugger;
 
 public class VariablesInitialization extends InstructionComplex{
 
-    private Variables variables;
+    private final Variables variables;
 
     public VariablesInitialization(Variables variables) {
         super();

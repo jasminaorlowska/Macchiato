@@ -3,7 +3,7 @@ import Exceptions.UndefinedVariableException;
 import Instructions.Instruction;
 import Instructions.Calculate;
 
-public class Subtraction implements Expression {
+public class Subtraction extends Expression {
 
     private final Expression e1;
     private final Expression e2;

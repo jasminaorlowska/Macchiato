@@ -3,7 +3,6 @@ package Macchiato;
 import Exceptions.*;
 import Instructions.InstructionComplex;
 import Instructions.Procedure;
-import Instructions.ProcedureDeclaration;
 import Instructions.Program;
 import Expressions.Variable;
 
@@ -170,7 +169,7 @@ public class Debugger {
         for (Variable var : v) bw.write(var.getName() + " " + var.getValue() + "\n");
         bw.flush();
         Set<Procedure> p = getProcedures(0);
-        for (ProcedureDeclaration procedure : p) {
+        for (Procedure procedure : p) {
             bw.write("Procedure name: " + procedure.getName() + "\n");
             LinkedHashSet<Character> vars = procedure.getVariables();
             for (Character c : vars) bw.write(c + " ");

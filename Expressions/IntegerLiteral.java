@@ -3,7 +3,7 @@ package Expressions;
 import Exceptions.UndefinedVariableException;
 import Instructions.Instruction;
 
-public class IntegerLiteral implements Expression {
+public class IntegerLiteral extends Expression {
 
     int value;
     public IntegerLiteral(int value) {

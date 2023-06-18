@@ -8,10 +8,9 @@ import java.util.ArrayList;
 import java.util.LinkedHashSet;
 /**Invokes a procedure. Ensures that the arguments of invoking the procedure and procedure declaration
  * are correct. */
-public class ProcedureInvoke extends InstructionComplex{
+public class ProcedureInvoke extends InstructionComplex {
     private final String name;
     private final ArrayList<Expression> arguments;
-    private Block parentBlock;
     private Variables variables;
 
     public ProcedureInvoke(String name, ArrayList<Expression> arguments) {
@@ -25,20 +24,21 @@ public class ProcedureInvoke extends InstructionComplex{
         variables.setParentBlock(this);
     }
 
-    //Creates variables from given names (in procedure declaration) and arguments (in proedure invoke),
+    //Creates variables from given names (in procedure) and arguments (in procedure invoke),
     //moves instructions (from procedure declaration) to get them invoked
     private void createVariablesMoveInstructions(LinkedHashSet<Character> vars, Procedure procedure) {
-        VariablesInitialization vInit = new VariablesInitialization(this.variables);
+        VariablesInitialization vInit = new VariablesInitialization(variables);
         addInstruction(vInit);
-        this.variables.linkVariablesInitialization(vInit);
+        variables.linkVariablesInitialization(vInit);
 
         int i = 0;
         for (Character c : vars) {
-            this.variables.addVariable(new Variable(c, arguments.get(i)));
+            variables.addVariable(new Variable(c, arguments.get(i)));
             i++;
         }
 
         for (Instruction instruction : procedure.getInstructions()) {
+            instruction.restart();
             addInstruction(instruction);
         }
     }

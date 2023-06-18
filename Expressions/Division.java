@@ -3,7 +3,7 @@ import Exceptions.UndefinedVariableException;
 import Instructions.Instruction;
 import Instructions.Calculate;
 
-public class Division implements Expression {
+public class Division extends Expression {
 
     private final Expression e1;
     private final Expression e2;
@@ -29,4 +29,5 @@ public class Division implements Expression {
     public String toString() {
         return "(" + e1 + " / " +  e2 + ")";
     }
+
 }
