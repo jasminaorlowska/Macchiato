@@ -196,6 +196,7 @@ public class Debugger {
                 Continue program execution: "c"
                 Execute a specific number of steps: "s <number>"
                 Display current variable values up to a certain level: "d <number>"
+                Perform a memory dump of the program into a file <file_name>: "m <file_name>"
                 Exit the debugger and stop program execution: "e\"""";
         System.out.println("Executing with debugging. Here are the commands:\n" + commands);
         boolean ended = false;

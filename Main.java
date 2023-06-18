@@ -28,6 +28,15 @@ public static void main(String[] args) {
         macchiato.addProgram(p);
         macchiato.runProgram(p);
 
+        //
+//            Program test1 = macchiato.createProgram("test1").
+//                    declareVariable('a', Expression.constant(2)).
+//                    iteration(new ForLoop.Builder(Expression.var('b'), Expression.var('a')).
+//                            print(Expression.var('b')).
+//                            build()).
+//                    build();
+//        macchiato.addProgram(test1);
+//        macchiato.runProgram(test1);
     }
 }
 
