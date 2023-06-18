@@ -40,8 +40,10 @@ public class Variables {
     public LinkedHashSet<Variable> getVariables() {return variables;}
 
 
-    public void addVariable(Variable v) {
-        if (!variables.add(v)) System.out.println("Variable '"+ v.getName() +"' already exists in the scope");
+    public void addVariable(Variable v){
+        if (!variables.add(v)) {
+            System.out.println("Variable '"+ v.getName() +"' already exists in the scope");
+        }
         else {
             //Adding instruction to initialization of variables
             variablesInit.addInstruction(new ChangeValueVariable(v, v.getExpression()));

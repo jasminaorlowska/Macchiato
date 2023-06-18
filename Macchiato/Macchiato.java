@@ -63,4 +63,10 @@ public final class Macchiato {
         }
     }
 
+    //invokes a program
+    public void run(Program p) {
+        Debugger debugger = new Debugger(p);
+        debugger.runWithout();
+    }
+
 }

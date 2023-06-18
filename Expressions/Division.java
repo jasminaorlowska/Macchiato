@@ -9,9 +9,7 @@ public class Division extends Expression {
     private final Expression e2;
 
     public Division(Expression e1, Expression e2) throws IllegalArgumentException {
-        if (e1 == null || e2 == null) {
-            throw new IllegalArgumentException("Expressions can't be null");
-        }
+        checkArguments(e1, e2);
         this.e1 = e1;
         this.e2 = e2;
     }
