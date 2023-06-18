@@ -36,7 +36,7 @@ public class Program extends Block {
     }
 
     //------------BUILDER--------------//
-    public static class Builder extends Block.Builder<Builder> {
+    public static class Builder extends Block.BlockBuilder<Builder> {
 
         private final String name;
 

@@ -11,7 +11,7 @@ public class Block extends InstructionComplex {
     private  Variables variables;
     private Procedures procedures;
 
-    public Block(Block.Builder<?> builder) {
+    public Block(Block.BlockBuilder<?> builder) {
         super(builder);
         initialize();
         for (Procedure p : builder.procedures) {
@@ -69,13 +69,13 @@ public class Block extends InstructionComplex {
         setRun(true);
     }
 
-    //------------BUILDER--------------//
-    public static class Builder<T extends Block.Builder> extends InstructionComplex.Builder<T> {
+    //------------BUILDERS--------------//
+    public static abstract class BlockBuilder<T extends Block.BlockBuilder> extends InstructionComplex.Builder<T> {
 
         private final Set<Variable> variables;
         private final Set<Procedure> procedures;
 
-        public Builder() {
+        public BlockBuilder() {
             super();
             this.variables = new HashSet<>();
             this.procedures = new HashSet<>();
@@ -92,8 +92,11 @@ public class Block extends InstructionComplex {
             return (T) this;
         }
 
+    }
+    public static class Builder extends Block.BlockBuilder<Block.Builder>{
         public Block build() {
             return new Block(this);
         }
     }
+
 }
