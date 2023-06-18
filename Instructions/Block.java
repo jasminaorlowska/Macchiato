@@ -81,7 +81,7 @@ public class Block extends InstructionComplex {
             this.procedures = new HashSet<>();
         }
 
-        public T declareVariable(char name, Expression e) {
+        public T declareVariable(char name, Expression e){
             variables.add(new Variable(name, e));
             return (T) this;
         }
