@@ -24,6 +24,7 @@ public class ForLoop extends InstructionComplex{
         if (variable == null || expression == null) {
             throw new IllegalArgumentException("Arguments can't be null");
         }
+
         this.expression = new Calculate(expression, this);
         this.variable = variable;
         this.helperInstructions = new ArrayList<>();
@@ -119,7 +120,6 @@ public class ForLoop extends InstructionComplex{
     }
 
 
-    //------------BUILDER--------------//
     public static class Builder extends InstructionComplex.Builder<Builder> {
 
         private final Variable variable;

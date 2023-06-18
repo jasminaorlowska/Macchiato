@@ -38,6 +38,7 @@ public class ProcedureInvoke extends InstructionComplex {
         }
 
         for (Instruction instruction : procedure.getInstructions()) {
+            instruction.restart();
             addInstruction(instruction);
         }
     }

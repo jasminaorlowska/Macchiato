@@ -31,8 +31,9 @@ public static void main(String[] args) {
                     List.of('a'),
                     new Block.Builder().
                             print(Expression.sum(Expression.var('a'), Expression.var('x'))).build()).
-                    invoke("out", List.of(Expression.constant(1))).
                     assign('x', Expression.sum(Expression.var('x'), Expression.var('y'))).
+                    invoke("out", List.of(Expression.constant(100))).
+                    invoke("out", List.of(Expression.var('x'))).
                     print(Expression.var('x')).
                     build();
 
