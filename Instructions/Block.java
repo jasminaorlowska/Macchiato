@@ -22,7 +22,7 @@ public class Block extends InstructionComplex {
         }
     }
 
-    //constructor helper methods
+    //constructor helper methods, initialization
     private void initialize() {
         initializeProceduresAndVariables();
         initializeVariablesInitialization(); //adding variables initialization at index 0 to the instruction list

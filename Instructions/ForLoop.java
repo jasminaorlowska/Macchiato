@@ -32,6 +32,7 @@ public class ForLoop extends InstructionComplex{
         this.firstNotRun = 0;
     }
 
+    //Getters
     @Override public Variable getVariable(Variable variable) {
         if (this.variable.equals(variable)) return this.variable;
         return this.getParentBlock().getVariable(variable);
@@ -42,6 +43,7 @@ public class ForLoop extends InstructionComplex{
         return variables;
     }
 
+    //Invoke
     private void moveFromLists(ArrayList<Instruction> moveFrom, ArrayList<Instruction> moveTo) {
         moveTo.clear();
         moveTo.addAll(moveFrom);
@@ -81,7 +83,6 @@ public class ForLoop extends InstructionComplex{
         moveFromLists(helperInstructions, getInstructions());
         helperInstructions.clear();
     }
-
     public void run(Debugger d) throws EndOfStepsException, UndefinedVariableException, ArithmeticException {
         if (!startedRunning()) {
             if (d.getSteps() == 0) {
@@ -121,6 +122,7 @@ public class ForLoop extends InstructionComplex{
     }
 
 
+    //------------BUILDER--------------//
     public static class Builder extends InstructionComplex.Builder<Builder> {
 
         private final Variable variable;
@@ -138,7 +140,6 @@ public class ForLoop extends InstructionComplex{
             this.variable = variable;
             this.expression = expression;
         }
-
         public ForLoop build() {
             return new ForLoop(this);
         }

@@ -13,6 +13,7 @@ public abstract class InstructionComplex extends Instruction{
     private final ArrayList<Instruction> instructions;
     private boolean startedRunning;
 
+    //Constructors
     public InstructionComplex(InstructionComplex.Builder<?> builder) {
         super();
         this.instructions = new ArrayList<>();
@@ -21,13 +22,13 @@ public abstract class InstructionComplex extends Instruction{
             addInstruction(i);
         }
     }
-
     public InstructionComplex() {
         super();
         this.instructions = new ArrayList<>();
         startedRunning = false;
     }
 
+    //Getters
     protected boolean startedRunning() {return startedRunning;}
     protected void setStartedRunning(boolean startedRunning) {
         this.startedRunning = startedRunning;
@@ -47,33 +48,32 @@ public abstract class InstructionComplex extends Instruction{
     public ArrayList<Instruction> getInstructions () {
         return instructions;
     }
+
+    //add instruction to instruction complex
     public void addInstruction(Instruction i) {
-//        if (i.isAdded()) {
-//            System.out.println("instruction is already added somewhere else");
-//            return;
-//        }
         instructions.add(i);
         i.setParentBlock(this);
-//        i.setAdded();
     }
 
+    //Restarts
     @Override public void restart() {
         startedRunning = false;
         setRun(false);
     }
-
     public void restartInstructions() {
         for (Instruction i : instructions) {
             i.restart();
         }
     }
 
+    //invoking
     public void runInstructions(Debugger d) throws EndOfStepsException,
             UndefinedVariableException, ArithmeticException{
         for (Instruction i : instructions) {
             if (!i.isRun()) i.run(d);
         }
     }
+
 
     //------------BUILDER--------------//
     public static abstract class Builder <T extends InstructionComplex.Builder> {

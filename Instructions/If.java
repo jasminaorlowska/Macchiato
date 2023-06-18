@@ -11,6 +11,7 @@ public class If extends InstructionComplex{
     private final Calculate expression2;
     private boolean shouldExecute;
 
+    //iniviatlization
     public If(If.Builder builder) {
         super(builder);
         checkArguments(builder.e1, builder.e2, builder.operator);
@@ -19,7 +20,6 @@ public class If extends InstructionComplex{
         this.expression2 = new Calculate(builder.e2, this);
         this.shouldExecute = false;
     }
-
     private void checkArguments(Expression e1, Expression e2, String operator) {
         if (!operator.matches("^(=|<>|<|>|<=|>=)$")) {
             String message = "Wrong operator, you can only use: '=', '<>', '<', '>', '<=', '>='";
@@ -29,10 +29,12 @@ public class If extends InstructionComplex{
             throw new IllegalArgumentException("Expressions can't be null");
         }
     }
+
+    //invoke
     private boolean calculateResult() throws ArithmeticException, UndefinedVariableException {
         try {
-             int e1 = expression1.run();
-             int e2 = expression2.run();
+            int e1 = expression1.run();
+            int e2 = expression2.run();
             boolean result;
             switch (operator) {
                 case "=" -> result = e1 == e2;
@@ -50,8 +52,6 @@ public class If extends InstructionComplex{
             throw new ArithmeticException(this.toString());
         }
     }
-
-    //Instrukcje do oblsluzenia debuggera.
     public void run(Debugger d) throws EndOfStepsException, ArithmeticException, UndefinedVariableException{
         if (!startedRunning()) {
             if (d.getSteps() == 0) {
@@ -80,9 +80,11 @@ public class If extends InstructionComplex{
         d.stackPop();
     }
 
+
     public String toString() {
         return "if " + expression1.toString() + " " + operator + " " + expression2.toString();
     }
+
 
     //------------BUILDER--------------//
     public static class Builder extends InstructionComplex.Builder<Builder> {
