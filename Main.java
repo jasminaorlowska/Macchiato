@@ -28,8 +28,6 @@ public static void main(String[] args) {
         macchiato.addProgram(p);
         macchiato.runProgram(p);
 
-
-
         /*begin block: var a = 2
             for (b = 0; b < a; b++)
                 print b
